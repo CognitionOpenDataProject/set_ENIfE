@@ -1,0 +1,274 @@
+---
+title: "COD Reproducibility Report"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+#### Article ID: ENIfE
+#### Pilot: Lester Tong
+#### Co-pilot: Tom Hardwicke  
+#### Start date: March 24, 2017
+#### End date: March 24, 2017
+
+-------
+
+#### Methods summary: 
+Participants saw 4 composite face images, 2 (male vs female) averages of 15 faces (from individuals with high vs low reaction time variability on a cognitive control task). In the discrimination task, participants were presented with both high and low SDRT faces (matched on gender), and asked to indicate which of the two faces was more attractive, physically healthy, and sex-typical. In the ratings task, participants used 9-point Likert scales to rate the individual faces on attractiveness, physical health, and sex-typicality.
+
+------
+
+#### Target outcomes: 
+> 2.2.1. Attractiveness judgements
+
+> Consistent with our prediction, low SDRT faces were chosen above chance-level (50%; Fig. 2), both for female composites 91.38% [84.09, 98.67] Cohen’s dz = 1.463 and male composites, 63.79% [51.32, 76.27] Cohen’s dz = 0.28. In addition, low SDRT faces were rated as more attractive than high SDRT faces, both for female composites 1.67 [1.11, 2.22] Cohen’s dz = 0.78 and male composites 1.04 [0.5, 1.57] Cohen’s dz = 0.5 (Fig. 2).
+
+> 2.2.2. Physical health and sex-typicality judgments
+
+> For judgements of physical health, low SDRT faces were chosen above chance-level, both for female composites 76.29% [69.43, 83.16] Cohen’s dz = 0.99 and male composites, 66.81% [59.44, 74.18] Cohen’s dz = 0.59 (Supplementary Fig. 1A). In addition, low SDRT faces were rated as more physically healthy than high SDRT faces, both for female composites 0.59 [0.27, 0.92] Cohen’s dz = 0.47 and male composites 0.44 [0.18, 0.69] Cohen’s dz = 0.45 (Supplementary Fig. 1C).
+
+> For sex-typicality judgments, low SDRT faces were chosen above chance-level for female composites 84.48% [75.08, 93.88] Cohen’s dz = 0.94, but not male composites 51.72% [38.75, 64.70] Cohen’s dz = 0.03 (Supplementary Fig. 1A). In addition, low SDRT faces were rated as more sex-typical than high SDRT faces for female composites 1.32 [0.73, 1.90] Cohen’s dz = 0.58, but not male composites 0.35 [−0.21, 0.92] Cohen’s dz = 0.16 (Supplementary Fig. 1C).
+
+
+------
+
+[The chunk below sets up some formatting options for the R Markdown document]
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE)
+```
+
+## Step 1: Load packages
+
+[Some useful packages are being loaded below. You can add any additional ones you might need too.]
+
+```{r}
+library(tidyverse) # for data munging
+library(knitr) # for kable table formating
+library(haven) # import and export 'SPSS', 'Stata' and 'SAS' Files
+library(readxl) # import excel files
+library(CODreports) # custom report functions
+```
+
+## Step 2: Load data
+
+```{r}
+raw_disc <- read_excel("data/data.xlsx",skip=2)
+names(raw_disc)[2]="participant_gender"
+names(raw_disc) <- c("participant_ID","participant_gender","Attractiveness_Female","Attractiveness_Male","Health_Female","Health_Male","Typical_Female","Typical_Male")
+raw_rate <- read_excel("data/data.xlsx",sheet=2,skip=3)
+names(raw_rate) <- c("participant_ID","participant_gender","Attractiveness_Female_LowSDRT","Attractiveness_Female_HighSDRT","Attractiveness_Male_LowSDRT","Attractiveness_Male_HighSDRT","Health_Female_LowSDRT","Health_Female_HighSDRT","Health_Male_LowSDRT","Health_Male_HighSDRT","Typical_Female_LowSDRT","Typical_Female_HighSDRT","Typical_Male_LowSDRT","Typical_Male_HighSDRT")
+```
+
+## Step 3: Tidy data
+
+```{r}
+discrimination <- raw_disc %>% gather(condition,lowSDRTchoice,Attractiveness_Female:Typical_Male) %>% separate(condition,c("Feature","Gender"),sep="_")
+
+ratings <- raw_rate %>% gather(condition,rating,Attractiveness_Female_LowSDRT:Typical_Male_HighSDRT) %>% 
+  separate(condition,c("Feature","Gender","SDRT"),sep="_")  %>%
+  spread(SDRT,rating) %>%
+  mutate(diffscore=LowSDRT-HighSDRT)
+
+## summarize scores to obtain means, standard errors, 95% confidence intervals, and cohen's Dzs
+discrimination_sum <- discrimination %>% 
+  group_by(Feature,Gender) %>%  
+  summarize(mean=mean(lowSDRTchoice),n=length(lowSDRTchoice)) %>% 
+  mutate(se=sqrt(mean/100*(1-mean/100)/n)) %>% 
+  mutate(CI_lb=(mean/100-1.96*se)*100, CI_ub=(mean/100+1.96*se)*100, cohenDz=(mean/100-0.50)/sqrt((mean/100*(1-mean/100))))
+
+ratings_sum <- ratings %>% 
+  group_by(Feature,Gender) %>%  
+  summarize(mean=mean(diffscore),sd=sd(diffscore),se=sd(diffscore)/sqrt(length(diffscore))) %>% 
+  mutate(CI_lb=mean-1.96*se, CI_ub=mean+1.96*se, cohenDz=mean/sd)
+```
+
+## Step 4: Run analysis
+
+### Descriptive statistics
+
+```{r}
+ggplot(data=discrimination,aes(x=lowSDRTchoice))+
+  geom_histogram()+
+  facet_grid(Gender~Feature)+
+  theme_bw()+
+  xlab("% Chose low SDRT face")+
+  ggtitle("Discrimination Task Histograms")
+
+ggplot(data=ratings,aes(x=diffscore))+
+  geom_histogram()+
+  facet_grid(Gender~Feature)+
+  theme_bw()+
+  xlab("Difference score (low SDRT - high SDRT)")+
+  ggtitle("Rating Task Histograms")
+```
+
+### Inferential statistics
+
+#### 2.2.1
+##### Female attractiveness, discrimination task
+```{r 2.2.1.1}
+###Female attractiveness:
+## Point estimate
+compareValues(reportedValue=91.38,obtainedValue=91.38)
+## 95% CI bounds
+compareValues(reportedValue=84.09,obtainedValue=84.16)
+compareValues(reportedValue=98.67,obtainedValue=98.60)
+## Cohen's Dz:
+compareValues(reportedValue=1.46,obtainedValue=1.47)
+```
+
+##### Male attractiveness, discrimination task
+```{r 2.2.1.2}
+### Male attractiveness:
+## Point estimate
+compareValues(reportedValue=63.79,obtainedValue=63.79)
+## 95% CI bounds:
+compareValues(reportedValue=51.32,obtainedValue=51.42)
+compareValues(reportedValue=76.27,obtainedValue=76.16)
+## Cohen's Dz:
+compareValues(reportedValue=0.28,obtainedValue=0.29)
+```
+
+##### Female attractiveness, ratings task
+```{r 2.2.1.3}
+###Female attractiveness ratings:
+## Point estimate
+compareValues(reportedValue=1.67,obtainedValue=1.67)
+## 95% CI bounds:
+compareValues(reportedValue=1.11,obtainedValue=1.11)
+compareValues(reportedValue=2.22,obtainedValue=2.22)
+## Cohen's Dz:
+compareValues(reportedValue=0.78,obtainedValue=0.78)
+```
+
+##### Male attractiveness, ratings task
+```{r 2.2.1.4}
+###Male attractiveness ratings:
+## Point estimate
+compareValues(reportedValue=1.04,obtainedValue=1.04)
+## 95% CI bounds (male):
+compareValues(reportedValue=0.50,obtainedValue=0.50)
+compareValues(reportedValue=1.57,obtainedValue=1.57)
+## Cohen's Dz:
+compareValues(reportedValue=0.50,obtainedValue=0.50)
+```
+
+#### 2.2.2
+##### Female physical health, discrimination task
+```{r 2.2.2.1}
+###Female health:
+## Point estimate
+compareValues(reportedValue=76.29,obtainedValue=76.29)
+## 95% CI bounds
+compareValues(reportedValue=69.43,obtainedValue=65.35)
+compareValues(reportedValue=83.16,obtainedValue=87.24)
+## Cohen's Dz:
+compareValues(reportedValue=0.99,obtainedValue=0.62)
+```
+
+##### Male physical health, discrimination task
+```{r 2.2.2.2}
+### Male health:
+## Point estimate
+compareValues(reportedValue=66.81,obtainedValue=66.81)
+## 95% CI bounds:
+compareValues(reportedValue=59.44,obtainedValue=54.69)
+compareValues(reportedValue=74.18,obtainedValue=78.93)
+## Cohen's Dz:
+compareValues(reportedValue=0.59,obtainedValue=0.36)
+```
+
+##### Female physical health, ratings task
+```{r 2.2.2.3}
+###Female health ratings:
+## Point estimate
+compareValues(reportedValue=0.59,obtainedValue=0.59)
+## 95% CI bounds:
+compareValues(reportedValue=0.27,obtainedValue=0.27)
+compareValues(reportedValue=0.92,obtainedValue=0.92)
+## Cohen's Dz:
+compareValues(reportedValue=0.47,obtainedValue=0.47)
+```
+
+##### Male physical health, ratings task
+```{r 2.2.2.4}
+###Male health ratings:
+## Point estimate
+compareValues(reportedValue=0.44,obtainedValue=0.44)
+## 95% CI bounds:
+compareValues(reportedValue=0.18,obtainedValue=0.18)
+compareValues(reportedValue=0.69,obtainedValue=0.69)
+## Cohen's Dz:
+compareValues(reportedValue=0.45,obtainedValue=0.45)
+```
+
+##### Female sexual typicality, discrimination task
+```{r 2.2.2.5}
+###Female typicality:
+## Point estimate
+compareValues(reportedValue=84.48,obtainedValue=84.48)
+## 95% CI bounds:
+compareValues(reportedValue=75.08,obtainedValue=75.16)
+compareValues(reportedValue=93.88,obtainedValue=93.80)
+## Cohen's Dz:
+compareValues(reportedValue=0.94,obtainedValue=0.95)
+```
+
+##### Male sexual typicality, discrimination task
+```{r 2.2.2.6}
+### Male typicality:
+## Point estimate
+compareValues(reportedValue=51.72,obtainedValue=51.72)
+## 95% CI bounds:
+compareValues(reportedValue=38.75,obtainedValue=38.86)
+compareValues(reportedValue=64.70,obtainedValue=64.58)
+## Cohen's Dz:
+compareValues(reportedValue=0.03,obtainedValue=0.03)
+```
+
+##### Female sexual typicality, ratings task
+```{r 2.2.2.7}
+###Female typicality ratings:
+## Point estimate
+compareValues(reportedValue=1.32,obtainedValue=1.32)
+## 95% CI bounds:
+compareValues(reportedValue=0.73,obtainedValue=0.73)
+compareValues(reportedValue=1.90,obtainedValue=1.90)
+## Cohen's Dz:
+compareValues(reportedValue=0.58,obtainedValue=0.58)
+```
+
+##### Male sexual typicality, ratings task
+```{r 2.2.2.8}
+###Male typicality ratings:
+## Point estimate
+compareValues(reportedValue=0.35,obtainedValue=0.35)
+## 95% CI bounds:
+compareValues(reportedValue=-0.21,obtainedValue=-0.21)
+compareValues(reportedValue=0.92,obtainedValue=0.92)
+## Cohen's Dz:
+compareValues(reportedValue=0.16,obtainedValue=0.16)
+
+```
+
+
+
+## Step 5: Conclusion
+
+```{r}
+codReport(Report_Type='pilot',
+          Article_ID='ENIfE',
+          Insufficient_Information_Errors=0,
+          Decision_Errors=0,
+          Major_Numerical_Errors=2,
+          Minor_Numerical_Errors = 15
+          )
+```
+
+Overall the reproducibility check was a failure, with a handful of minor numerical errors and two more glaring major numerical errors (where the discrepancies between obtained and reported effect sizes are greater than 30%). No decision errors were noted, but the major numerical errors should be verified to avoid misleading readers.
+
+```{r session_info, include=TRUE, echo=TRUE, results='markup'}
+devtools::session_info()
+```
