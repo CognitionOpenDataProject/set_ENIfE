@@ -10,7 +10,7 @@ output:
 #### Pilot: Lester Tong
 #### Co-pilot: Tom Hardwicke  
 #### Start date: March 24, 2017
-#### End date: [Insert end date - use US format]   
+#### End date: March 24, 2017
 
 -------
 
