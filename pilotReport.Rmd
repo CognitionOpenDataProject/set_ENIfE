@@ -8,7 +8,6 @@ output:
 
 #### Article ID: ENIfE
 #### Pilot: Lester Tong
-#### Co-pilot: Tom Hardwicke  
 #### Start date: March 24, 2017
 #### End date: March 24, 2017
 
