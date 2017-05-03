@@ -105,12 +105,12 @@ Reproduce target outcome:
 ###Female attractiveness
 fa <- discrimination_sum %>% filter(Feature == 'Attractiveness', Gender == 'Female')
 ## Point estimate
-compareValues(reportedValue=91.38,obtainedValue=round(fa$mean, 2))
+compareValues(reportedValue=91.38,obtainedValue=fa$mean)
 ## 95% CI bounds
-compareValues(reportedValue=84.09,obtainedValue=round(fa$CI_lb, 2))
-compareValues(reportedValue=98.67,obtainedValue=round(fa$CI_ub, 2))
+compareValues(reportedValue=84.09,obtainedValue=fa$CI_lb)
+compareValues(reportedValue=98.67,obtainedValue=fa$CI_ub)
 ## Cohen's Dz:
-compareValues(reportedValue=1.46,obtainedValue=round(fa$dz, 2))
+compareValues(reportedValue=1.46,obtainedValue=fa$dz)
 ```
 
 Reproduce target outcome:
@@ -121,12 +121,12 @@ Reproduce target outcome:
 ### Male attractiveness:
 ma <- discrimination_sum %>% filter(Feature == 'Attractiveness', Gender == 'Male')
 ## Point estimate
-compareValues(reportedValue=63.79,obtainedValue=round(ma$mean, 2))
+compareValues(reportedValue=63.79,obtainedValue=ma$mean)
 ## 95% CI bounds:
-compareValues(reportedValue=51.32,obtainedValue=round(ma$CI_lb, 2))
-compareValues(reportedValue=76.27,obtainedValue=round(ma$CI_ub, 2))
+compareValues(reportedValue=51.32,obtainedValue=ma$CI_lb)
+compareValues(reportedValue=76.27,obtainedValue=ma$CI_ub)
 ## Cohen's Dz:
-compareValues(reportedValue=0.28,obtainedValue=round(ma$dz, 2))
+compareValues(reportedValue=0.28,obtainedValue=ma$dz)
 ```
 
 Reproduce target outcome:
@@ -137,12 +137,12 @@ Reproduce target outcome:
 ###Female attractiveness ratings:
 fa_rat <- ratings_sum %>% filter(Feature == 'Attractiveness', Gender == 'Female')
 ## Point estimate
-compareValues(reportedValue=1.67,obtainedValue=round(fa_rat$mean, 2))
+compareValues(reportedValue=1.67,obtainedValue=fa_rat$mean)
 ## 95% CI bounds:
-compareValues(reportedValue=1.11,obtainedValue=round(fa_rat$CI_lb, 2))
-compareValues(reportedValue=2.22,obtainedValue=round(fa_rat$CI_ub, 2))
+compareValues(reportedValue=1.11,obtainedValue=fa_rat$CI_lb)
+compareValues(reportedValue=2.22,obtainedValue=fa_rat$CI_ub)
 ## Cohen's Dz:
-compareValues(reportedValue=0.78,obtainedValue=round(fa_rat$dz, 2))
+compareValues(reportedValue=0.78,obtainedValue=fa_rat$dz)
 ```
 
 Reproduce target outcome:
@@ -153,12 +153,12 @@ Reproduce target outcome:
 ###Male attractiveness ratings:
 ma_rat <- ratings_sum %>% filter(Feature == 'Attractiveness', Gender == 'Male')
 ## Point estimate
-compareValues(reportedValue=1.04,obtainedValue=round(ma_rat$mean, 2))
+compareValues(reportedValue=1.04,obtainedValue=ma_rat$mean)
 ## 95% CI bounds (male):
-compareValues(reportedValue=0.50,obtainedValue=round(ma_rat$CI_lb, 2))
-compareValues(reportedValue=1.57,obtainedValue=round(ma_rat$CI_ub, 2))
+compareValues(reportedValue=0.50,obtainedValue=ma_rat$CI_lb)
+compareValues(reportedValue=1.57,obtainedValue=ma_rat$CI_ub)
 ## Cohen's Dz:
-compareValues(reportedValue=0.50,obtainedValue=round(ma_rat$dz, 2))
+compareValues(reportedValue=0.50,obtainedValue=ma_rat$dz)
 ```
 
 Reproduce target outcome:
@@ -169,12 +169,12 @@ Reproduce target outcome:
 ###Female health:
 fh <- discrimination_sum %>% filter(Feature == 'Health', Gender == 'Female')
 ## Point estimate
-compareValues(reportedValue=76.29,obtainedValue=round(fh$mean, 2))
+compareValues(reportedValue=76.29,obtainedValue=fh$mean)
 ## 95% CI bounds
-compareValues(reportedValue=69.43,obtainedValue=round(fh$CI_lb, 2))
-compareValues(reportedValue=83.16,obtainedValue=round(fh$CI_ub, 2))
+compareValues(reportedValue=69.43,obtainedValue=fh$CI_lb)
+compareValues(reportedValue=83.16,obtainedValue=fh$CI_ub)
 ## Cohen's Dz:
-compareValues(reportedValue=0.99,obtainedValue=round(fh$dz, 2))
+compareValues(reportedValue=0.99,obtainedValue=fh$dz)
 ```
 Reproduce target outcome:
 
@@ -184,12 +184,12 @@ Reproduce target outcome:
 ### Male health:
 mh <- discrimination_sum %>% filter(Feature == 'Health', Gender == 'Male')
 ## Point estimate
-compareValues(reportedValue=66.81,obtainedValue=round(mh$mean, 2))
+compareValues(reportedValue=66.81,obtainedValue=mh$mean)
 ## 95% CI bounds:
-compareValues(reportedValue=59.44,obtainedValue=round(mh$CI_lb, 2))
-compareValues(reportedValue=74.18,obtainedValue=round(mh$CI_ub, 2))
+compareValues(reportedValue=59.44,obtainedValue=mh$CI_lb)
+compareValues(reportedValue=74.18,obtainedValue=mh$CI_ub)
 ## Cohen's Dz:
-compareValues(reportedValue=0.59,obtainedValue=round(mh$dz, 2))
+compareValues(reportedValue=0.59,obtainedValue=mh$dz)
 ```
 
 Reproduce target outcome:
@@ -200,12 +200,12 @@ Reproduce target outcome:
 ###Female health ratings:
 fh_rat <- ratings_sum %>% filter(Feature == 'Health', Gender == 'Female')
 ## Point estimate
-compareValues(reportedValue=0.59,obtainedValue=round(fh_rat$mean, 2))
+compareValues(reportedValue=0.59,obtainedValue=fh_rat$mean)
 ## 95% CI bounds:
-compareValues(reportedValue=0.27,obtainedValue=round(fh_rat$CI_lb, 2))
-compareValues(reportedValue=0.92,obtainedValue=round(fh_rat$CI_ub, 2))
+compareValues(reportedValue=0.27,obtainedValue=fh_rat$CI_lb)
+compareValues(reportedValue=0.92,obtainedValue=fh_rat$CI_ub)
 ## Cohen's Dz:
-compareValues(reportedValue=0.47,obtainedValue=round(fh_rat$dz, 2))
+compareValues(reportedValue=0.47,obtainedValue=fh_rat$dz)
 ```
 
 Reproduce target outcome:
@@ -216,12 +216,12 @@ Reproduce target outcome:
 ###Male health ratings:
 mh_rat <- ratings_sum %>% filter(Feature == 'Health', Gender == 'Male')
 ## Point estimate
-compareValues(reportedValue=0.44,obtainedValue=round(mh_rat$mean, 2))
+compareValues(reportedValue=0.44,obtainedValue=mh_rat$mean)
 ## 95% CI bounds:
-compareValues(reportedValue=0.18,obtainedValue=round(mh_rat$CI_lb, 2))
-compareValues(reportedValue=0.69,obtainedValue=round(mh_rat$CI_ub, 2))
+compareValues(reportedValue=0.18,obtainedValue=mh_rat$CI_lb)
+compareValues(reportedValue=0.69,obtainedValue=mh_rat$CI_ub)
 ## Cohen's Dz:
-compareValues(reportedValue=0.45,obtainedValue=round(mh_rat$dz, 2))
+compareValues(reportedValue=0.45,obtainedValue=mh_rat$dz)
 ```
 
 Reproduce target outcome:
@@ -233,12 +233,12 @@ Reproduce target outcome:
 ft <- discrimination_sum %>% filter(Feature == 'Typical', Gender == 'Female')
 
 ## Point estimate
-compareValues(reportedValue=84.48,obtainedValue=round(ft$mean, 2))
+compareValues(reportedValue=84.48,obtainedValue=ft$mean)
 ## 95% CI bounds:
-compareValues(reportedValue=75.08,obtainedValue=round(ft$CI_lb, 2))
-compareValues(reportedValue=93.88,obtainedValue=round(ft$CI_ub, 2))
+compareValues(reportedValue=75.08,obtainedValue=ft$CI_lb)
+compareValues(reportedValue=93.88,obtainedValue=ft$CI_ub)
 ## Cohen's Dz:
-compareValues(reportedValue=0.94,obtainedValue=round(ft$dz, 2))
+compareValues(reportedValue=0.94,obtainedValue=ft$dz)
 ```
 
 Reproduce target outcome:
@@ -250,12 +250,12 @@ Reproduce target outcome:
 mt <- discrimination_sum %>% filter(Feature == 'Typical', Gender == 'Male')
 
 ## Point estimate
-compareValues(reportedValue=51.72,obtainedValue=round(mt$mean, 2))
+compareValues(reportedValue=51.72,obtainedValue=mt$mean)
 ## 95% CI bounds:
-compareValues(reportedValue=38.75,obtainedValue=round(mt$CI_lb, 2))
-compareValues(reportedValue=64.70,obtainedValue=round(mt$CI_ub, 2))
+compareValues(reportedValue=38.75,obtainedValue=mt$CI_lb)
+compareValues(reportedValue=64.70,obtainedValue=mt$CI_ub)
 ## Cohen's Dz:
-compareValues(reportedValue=0.03,obtainedValue=round(mt$dz, 2))
+compareValues(reportedValue=0.03,obtainedValue=mt$dz)
 ```
 
 Reproduce target outcome:
@@ -267,12 +267,12 @@ Reproduce target outcome:
 ft_rat <- ratings_sum %>% filter(Feature == 'Typical', Gender == 'Female')
 
 ## Point estimate
-compareValues(reportedValue=1.32,obtainedValue=round(ft_rat$mean, 2))
+compareValues(reportedValue=1.32,obtainedValue=ft_rat$mean)
 ## 95% CI bounds:
-compareValues(reportedValue=0.73,obtainedValue=round(ft_rat$CI_lb, 2))
-compareValues(reportedValue=1.90,obtainedValue=round(ft_rat$CI_ub, 2))
+compareValues(reportedValue=0.73,obtainedValue=ft_rat$CI_lb)
+compareValues(reportedValue=1.90,obtainedValue=ft_rat$CI_ub)
 ## Cohen's Dz:
-compareValues(reportedValue=0.58,obtainedValue=round(ft_rat$dz, 2))
+compareValues(reportedValue=0.58,obtainedValue=ft_rat$dz)
 ```
 
 Reproduce target outcome:
@@ -284,12 +284,12 @@ Reproduce target outcome:
 mt_rat <- ratings_sum %>% filter(Feature == 'Typical', Gender == 'Male')
 
 ## Point estimate
-compareValues(reportedValue=0.35,obtainedValue=round(mt_rat$mean, 2))
+compareValues(reportedValue=0.35,obtainedValue=mt_rat$mean)
 ## 95% CI bounds:
-compareValues(reportedValue=-0.21,obtainedValue=round(mt_rat$CI_lb, 2))
-compareValues(reportedValue=0.92,obtainedValue=round(mt_rat$CI_ub, 2))
+compareValues(reportedValue=-0.21,obtainedValue=mt_rat$CI_lb)
+compareValues(reportedValue=0.92,obtainedValue=mt_rat$CI_ub)
 ## Cohen's Dz:
-compareValues(reportedValue=0.16,obtainedValue=round(mt_rat$dz, 2))
+compareValues(reportedValue=0.16,obtainedValue=mt_rat$dz)
 
 ```
 
@@ -301,8 +301,8 @@ codReport(Report_Type='joint',
           Insufficient_Information_Errors=0,
           Decision_Errors=0,
           Major_Numerical_Errors=0,
-          Minor_Numerical_Errors = 0
-          )
+          Minor_Numerical_Errors = 0,
+          Author_Assistance = F)
 ```
 
 Overall the reproducibility check was a success. All target outcomes were successfully reproduced.
