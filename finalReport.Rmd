@@ -9,8 +9,10 @@ output:
 #### Article ID: ENIfE
 #### Pilot: Lester Tong
 #### Co-pilot: Tom Hardwicke  
-#### Start date: March 24, 2017
-#### End date: March 27, 2017
+#### Start date: Mar 24 2017
+#### End date: Mar 27 2017
+#### Final verification: Tom Hardwicke
+#### Date: Nov 9 2017
 
 -------
 
@@ -34,6 +36,9 @@ Participants saw 4 composite face images, 2 (male vs female) averages of 15 face
 
 ```{r global_options, include=FALSE}
 knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE)
+
+# prepare an empty report object, we will update this each time we run compareValues2()
+reportObject <- data.frame("Article_ID" = NA, "valuesChecked" = 0, "eyeballs" = 0, "Total_df" = 0, "Total_p" = 0, "Total_mean" = 0, "Total_sd" = 0, "Total_se" = 0, "Total_ci" = 0, "Total_bf" = 0, "Total_t" = 0, "Total_F" = 0, "Total_es" = 0, "Total_median" = 0, "Total_irr" = 0, "Total_r" = 0, "Total_z" = 0, "Total_coeff" = 0, "Total_n" = 0, "Total_x2" = 0, "Total_other" = 0, "Insufficient_Information_Errors" = 0, "Decision_Errors" = 0, "Major_Numerical_Errors" = 0, "Minor_Numerical_Errors" = 0, "Major_df" = 0, "Major_p" = 0, "Major_mean" = 0, "Major_sd" = 0, "Major_se" = 0, "Major_ci" = 0, "Major_bf" = 0, "Major_t" = 0, "Major_F" = 0, "Major_es" = 0, "Major_median" = 0, "Major_irr" = 0, "Major_r" = 0, "Major_z" = 0, "Major_coeff" = 0, "Major_n" = 0, "Major_x2" = 0, "Major_other" = 0, "affectsConclusion" = NA, "error_typo" = 0, "error_specification" = 0, "error_analysis" = 0, "error_data" = 0, "error_unidentified" = 0, "Author_Assistance" = NA, "resolved_typo" = 0, "resolved_specification" = 0, "resolved_analysis" = 0, "resolved_data" = 0, "correctionSuggested" = NA, "correctionPublished" = NA)
 ```
 
 ## Step 1: Load packages
@@ -105,12 +110,12 @@ Reproduce target outcome:
 ###Female attractiveness
 fa <- discrimination_sum %>% filter(Feature == 'Attractiveness', Gender == 'Female')
 ## Point estimate
-compareValues(reportedValue=91.38,obtainedValue=fa$mean)
+reportObject <- compareValues2(reportedValue="91.38", obtainedValue=fa$mean, valueType = 'mean')
 ## 95% CI bounds
-compareValues(reportedValue=84.09,obtainedValue=fa$CI_lb)
-compareValues(reportedValue=98.67,obtainedValue=fa$CI_ub)
+reportObject <- compareValues2(reportedValue="84.09",obtainedValue=fa$CI_lb, valueType = 'ci')
+reportObject <- compareValues2(reportedValue="98.67",obtainedValue=fa$CI_ub, valueType = 'ci')
 ## Cohen's Dz:
-compareValues(reportedValue=1.46,obtainedValue=fa$dz)
+reportObject <- compareValues2(reportedValue="1.463",obtainedValue=fa$dz, valueType = 'es')
 ```
 
 Reproduce target outcome:
@@ -121,12 +126,12 @@ Reproduce target outcome:
 ### Male attractiveness:
 ma <- discrimination_sum %>% filter(Feature == 'Attractiveness', Gender == 'Male')
 ## Point estimate
-compareValues(reportedValue=63.79,obtainedValue=ma$mean)
+reportObject <- compareValues2(reportedValue="63.79",obtainedValue=ma$mean, valueType = 'mean')
 ## 95% CI bounds:
-compareValues(reportedValue=51.32,obtainedValue=ma$CI_lb)
-compareValues(reportedValue=76.27,obtainedValue=ma$CI_ub)
+reportObject <- compareValues2(reportedValue="51.32",obtainedValue=ma$CI_lb, valueType = 'ci')
+reportObject <- compareValues2(reportedValue="76.27",obtainedValue=ma$CI_ub, valueType = 'ci')
 ## Cohen's Dz:
-compareValues(reportedValue=0.28,obtainedValue=ma$dz)
+reportObject <- compareValues2(reportedValue="0.28",obtainedValue=ma$dz, valueType = 'es')
 ```
 
 Reproduce target outcome:
@@ -137,12 +142,12 @@ Reproduce target outcome:
 ###Female attractiveness ratings:
 fa_rat <- ratings_sum %>% filter(Feature == 'Attractiveness', Gender == 'Female')
 ## Point estimate
-compareValues(reportedValue=1.67,obtainedValue=fa_rat$mean)
+reportObject <- compareValues2(reportedValue="1.67",obtainedValue=fa_rat$mean, valueType = 'mean')
 ## 95% CI bounds:
-compareValues(reportedValue=1.11,obtainedValue=fa_rat$CI_lb)
-compareValues(reportedValue=2.22,obtainedValue=fa_rat$CI_ub)
+reportObject <- compareValues2(reportedValue="1.11",obtainedValue=fa_rat$CI_lb, valueType = 'ci')
+reportObject <- compareValues2(reportedValue="2.22",obtainedValue=fa_rat$CI_ub, valueType = 'ci')
 ## Cohen's Dz:
-compareValues(reportedValue=0.78,obtainedValue=fa_rat$dz)
+reportObject <- compareValues2(reportedValue="0.78",obtainedValue=fa_rat$dz, valueType = 'es')
 ```
 
 Reproduce target outcome:
@@ -153,12 +158,12 @@ Reproduce target outcome:
 ###Male attractiveness ratings:
 ma_rat <- ratings_sum %>% filter(Feature == 'Attractiveness', Gender == 'Male')
 ## Point estimate
-compareValues(reportedValue=1.04,obtainedValue=ma_rat$mean)
+reportObject <- compareValues2(reportedValue="1.04",obtainedValue=ma_rat$mean, valueType = 'mean')
 ## 95% CI bounds (male):
-compareValues(reportedValue=0.50,obtainedValue=ma_rat$CI_lb)
-compareValues(reportedValue=1.57,obtainedValue=ma_rat$CI_ub)
+reportObject <- compareValues2(reportedValue="0.50",obtainedValue=ma_rat$CI_lb, valueType = 'ci')
+reportObject <- compareValues2(reportedValue="1.57",obtainedValue=ma_rat$CI_ub, valueType = 'ci')
 ## Cohen's Dz:
-compareValues(reportedValue=0.50,obtainedValue=ma_rat$dz)
+reportObject <- compareValues2(reportedValue="0.50",obtainedValue=ma_rat$dz, valueType = 'es')
 ```
 
 Reproduce target outcome:
@@ -169,12 +174,12 @@ Reproduce target outcome:
 ###Female health:
 fh <- discrimination_sum %>% filter(Feature == 'Health', Gender == 'Female')
 ## Point estimate
-compareValues(reportedValue=76.29,obtainedValue=fh$mean)
+reportObject <- compareValues2(reportedValue="76.29",obtainedValue=fh$mean, valueType = 'mean')
 ## 95% CI bounds
-compareValues(reportedValue=69.43,obtainedValue=fh$CI_lb)
-compareValues(reportedValue=83.16,obtainedValue=fh$CI_ub)
+reportObject <- compareValues2(reportedValue="69.43",obtainedValue=fh$CI_lb, valueType = 'ci')
+reportObject <- compareValues2(reportedValue="83.16",obtainedValue=fh$CI_ub, valueType = 'ci')
 ## Cohen's Dz:
-compareValues(reportedValue=0.99,obtainedValue=fh$dz)
+reportObject <- compareValues2(reportedValue="0.99",obtainedValue=fh$dz, valueType = 'es')
 ```
 Reproduce target outcome:
 
@@ -184,12 +189,12 @@ Reproduce target outcome:
 ### Male health:
 mh <- discrimination_sum %>% filter(Feature == 'Health', Gender == 'Male')
 ## Point estimate
-compareValues(reportedValue=66.81,obtainedValue=mh$mean)
+reportObject <- compareValues2(reportedValue="66.81",obtainedValue=mh$mean, valueType = 'mean')
 ## 95% CI bounds:
-compareValues(reportedValue=59.44,obtainedValue=mh$CI_lb)
-compareValues(reportedValue=74.18,obtainedValue=mh$CI_ub)
+reportObject <- compareValues2(reportedValue="59.44",obtainedValue=mh$CI_lb, valueType = 'ci')
+reportObject <- compareValues2(reportedValue="74.18",obtainedValue=mh$CI_ub, valueType = 'ci')
 ## Cohen's Dz:
-compareValues(reportedValue=0.59,obtainedValue=mh$dz)
+reportObject <- compareValues2(reportedValue="0.59",obtainedValue=mh$dz, valueType = 'es')
 ```
 
 Reproduce target outcome:
@@ -200,12 +205,12 @@ Reproduce target outcome:
 ###Female health ratings:
 fh_rat <- ratings_sum %>% filter(Feature == 'Health', Gender == 'Female')
 ## Point estimate
-compareValues(reportedValue=0.59,obtainedValue=fh_rat$mean)
+reportObject <- compareValues2(reportedValue="0.59",obtainedValue=fh_rat$mean, valueType = 'mean')
 ## 95% CI bounds:
-compareValues(reportedValue=0.27,obtainedValue=fh_rat$CI_lb)
-compareValues(reportedValue=0.92,obtainedValue=fh_rat$CI_ub)
+reportObject <- compareValues2(reportedValue="0.27",obtainedValue=fh_rat$CI_lb, valueType = 'ci')
+reportObject <- compareValues2(reportedValue="0.92",obtainedValue=fh_rat$CI_ub, valueType = 'ci')
 ## Cohen's Dz:
-compareValues(reportedValue=0.47,obtainedValue=fh_rat$dz)
+reportObject <- compareValues2(reportedValue="0.47",obtainedValue=fh_rat$dz, valueType = 'es')
 ```
 
 Reproduce target outcome:
@@ -216,12 +221,12 @@ Reproduce target outcome:
 ###Male health ratings:
 mh_rat <- ratings_sum %>% filter(Feature == 'Health', Gender == 'Male')
 ## Point estimate
-compareValues(reportedValue=0.44,obtainedValue=mh_rat$mean)
+reportObject <- compareValues2(reportedValue="0.44",obtainedValue=mh_rat$mean, valueType = 'mean')
 ## 95% CI bounds:
-compareValues(reportedValue=0.18,obtainedValue=mh_rat$CI_lb)
-compareValues(reportedValue=0.69,obtainedValue=mh_rat$CI_ub)
+reportObject <- compareValues2(reportedValue="0.18",obtainedValue=mh_rat$CI_lb, valueType = 'ci')
+reportObject <- compareValues2(reportedValue="0.69",obtainedValue=mh_rat$CI_ub, valueType = 'ci')
 ## Cohen's Dz:
-compareValues(reportedValue=0.45,obtainedValue=mh_rat$dz)
+reportObject <- compareValues2(reportedValue="0.45",obtainedValue=mh_rat$dz, valueType = 'es')
 ```
 
 Reproduce target outcome:
@@ -233,12 +238,12 @@ Reproduce target outcome:
 ft <- discrimination_sum %>% filter(Feature == 'Typical', Gender == 'Female')
 
 ## Point estimate
-compareValues(reportedValue=84.48,obtainedValue=ft$mean)
+reportObject <- compareValues2(reportedValue="84.48",obtainedValue=ft$mean, valueType = 'mean')
 ## 95% CI bounds:
-compareValues(reportedValue=75.08,obtainedValue=ft$CI_lb)
-compareValues(reportedValue=93.88,obtainedValue=ft$CI_ub)
+reportObject <- compareValues2(reportedValue="75.08",obtainedValue=ft$CI_lb, valueType = 'ci')
+reportObject <- compareValues2(reportedValue="93.88",obtainedValue=ft$CI_ub, valueType = 'ci')
 ## Cohen's Dz:
-compareValues(reportedValue=0.94,obtainedValue=ft$dz)
+reportObject <- compareValues2(reportedValue="0.94",obtainedValue=ft$dz, valueType = 'es')
 ```
 
 Reproduce target outcome:
@@ -250,12 +255,12 @@ Reproduce target outcome:
 mt <- discrimination_sum %>% filter(Feature == 'Typical', Gender == 'Male')
 
 ## Point estimate
-compareValues(reportedValue=51.72,obtainedValue=mt$mean)
+reportObject <- compareValues2(reportedValue="51.72",obtainedValue=mt$mean, valueType = 'mean')
 ## 95% CI bounds:
-compareValues(reportedValue=38.75,obtainedValue=mt$CI_lb)
-compareValues(reportedValue=64.70,obtainedValue=mt$CI_ub)
+reportObject <- compareValues2(reportedValue="38.75",obtainedValue=mt$CI_lb, valueType = 'ci')
+reportObject <- compareValues2(reportedValue="64.70",obtainedValue=mt$CI_ub, valueType = 'ci')
 ## Cohen's Dz:
-compareValues(reportedValue=0.03,obtainedValue=mt$dz)
+reportObject <- compareValues2(reportedValue="0.03",obtainedValue=mt$dz, valueType = 'es')
 ```
 
 Reproduce target outcome:
@@ -267,12 +272,12 @@ Reproduce target outcome:
 ft_rat <- ratings_sum %>% filter(Feature == 'Typical', Gender == 'Female')
 
 ## Point estimate
-compareValues(reportedValue=1.32,obtainedValue=ft_rat$mean)
+reportObject <- compareValues2(reportedValue="1.32",obtainedValue=ft_rat$mean, valueType = 'mean')
 ## 95% CI bounds:
-compareValues(reportedValue=0.73,obtainedValue=ft_rat$CI_lb)
-compareValues(reportedValue=1.90,obtainedValue=ft_rat$CI_ub)
+reportObject <- compareValues2(reportedValue="0.73",obtainedValue=ft_rat$CI_lb, valueType = 'ci')
+reportObject <- compareValues2(reportedValue="1.90",obtainedValue=ft_rat$CI_ub, valueType = 'ci')
 ## Cohen's Dz:
-compareValues(reportedValue=0.58,obtainedValue=ft_rat$dz)
+reportObject <- compareValues2(reportedValue="0.58",obtainedValue=ft_rat$dz, valueType = 'es')
 ```
 
 Reproduce target outcome:
@@ -284,28 +289,70 @@ Reproduce target outcome:
 mt_rat <- ratings_sum %>% filter(Feature == 'Typical', Gender == 'Male')
 
 ## Point estimate
-compareValues(reportedValue=0.35,obtainedValue=mt_rat$mean)
+reportObject <- compareValues2(reportedValue="0.35",obtainedValue=mt_rat$mean, valueType = 'mean')
 ## 95% CI bounds:
-compareValues(reportedValue=-0.21,obtainedValue=mt_rat$CI_lb)
-compareValues(reportedValue=0.92,obtainedValue=mt_rat$CI_ub)
+reportObject <- compareValues2(reportedValue="-0.21",obtainedValue=mt_rat$CI_lb, valueType = 'ci')
+reportObject <- compareValues2(reportedValue="0.92",obtainedValue=mt_rat$CI_ub, valueType = 'ci')
 ## Cohen's Dz:
-compareValues(reportedValue=0.16,obtainedValue=mt_rat$dz)
+reportObject <- compareValues2(reportedValue="0.16",obtainedValue=mt_rat$dz, valueType = 'es')
 
 ```
 
 ## Step 5: Conclusion
 
+Overall the reproducibility check was a success. All target outcomes were successfully reproduced.
+
 ```{r}
-codReport(Report_Type='joint',
-          Article_ID='ENIfE',
-          Insufficient_Information_Errors=0,
-          Decision_Errors=0,
-          Major_Numerical_Errors=0,
-          Minor_Numerical_Errors = 0,
-          Author_Assistance = F)
+reportObject$Article_ID <- "ENIfE"
+reportObject$affectsConclusion <- NA
+reportObject$error_typo <- 0
+reportObject$error_specification <- 0
+reportObject$error_analysis <- 0
+reportObject$error_data <- 0
+reportObject$error_unidentified <- 0
+reportObject$Author_Assistance <- F
+reportObject$resolved_typo <- 0
+reportObject$resolved_specification <- 0
+reportObject$resolved_analysis <- 0
+reportObject$resolved_data <- 0
+reportObject$correctionSuggested <- NA
+reportObject$correctionPublished <- NA
+
+# decide on final outcome
+if(reportObject$Decision_Errors > 0 | reportObject$Major_Numerical_Errors > 0 | reportObject$Insufficient_Information_Errors > 0){
+  reportObject$finalOutcome <- "Failure"
+  if(reportObject$Author_Assistance == T){
+    reportObject$finalOutcome <- "Failure despite author assistance"
+  }
+}else{
+  reportObject$finalOutcome <- "Success"
+  if(reportObject$Author_Assistance == T){
+    reportObject$finalOutcome <- "Success with author assistance"
+  }
+}
+
+# save the report object
+filename <- paste0("reportObject_", reportObject$Article_ID,".csv")
+write_csv(reportObject, filename)
+
 ```
 
-Overall the reproducibility check was a success. All target outcomes were successfully reproduced.
+## Report Object
+
+```{r, echo = FALSE}
+# display report object in chunks
+kable(reportObject[2:10], align = 'l')
+kable(reportObject[11:20], align = 'l')
+kable(reportObject[21:25], align = 'l')
+kable(reportObject[26:30], align = 'l')
+kable(reportObject[31:35], align = 'l')
+kable(reportObject[36:40], align = 'l')
+kable(reportObject[41:45], align = 'l')
+kable(reportObject[46:51], align = 'l')
+kable(reportObject[52:57], align = 'l')
+```
+
+## Session information
 
 ```{r session_info, include=TRUE, echo=TRUE, results='markup'}
 devtools::session_info()
